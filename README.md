@@ -27,14 +27,15 @@ Employee — это WebAPI-приложение для управления да
 PUT /person/{personGuid}
 ```
 
-`personGuid` — уникальный идентификатор сотрудника.
+- `personGuid` — уникальный идентификатор сотрудника.
+- Метод идемпотентный.
 
 **Тело запроса:**
 
 ```JSON
 {
   "FullName": "Semyon Semyonovich",
-  "InnFl": "1234567890",
+  "InnF1": "1234567890",
   "Gender": 1,
   "Citizenship": "RUSSIAN FEDERATION",
   "BirthDate": "01.01.2000",
@@ -42,6 +43,7 @@ PUT /person/{personGuid}
   "Phone": "+79610878544",
   "Email": "snkot@gmail.com",
   "RegistrationAddress": {
+    ...
   },
   "IdentityCard": {
     "DocumentType" : "Passport",
@@ -73,7 +75,7 @@ GET /person/{personGuid}
 ```JSON
 {
   "FullName": "Semyon Semyonovich",
-  "InnFl": "1234567890",
+  "InnF1": "1234567890",
   "Gender": 1,
   "Citizenship": "RUSSIAN FEDERATION",
   "BirthDate": "01.01.1802",
@@ -81,6 +83,7 @@ GET /person/{personGuid}
   "Phone": "+79610878544",
   "Email": "snkot@gmail.com",
   "RegistrationAddress": {
+    ...
   },
   "IdentityCard": {
     "DocumentType" : "Passport",
@@ -109,28 +112,28 @@ GET /person
 
 ```JSON
 [
-  "q-12-345-w-67890" : {
-    {
-      "FullName": "Semyon Semyonovich",
-      "InnFl": "1234567890",
-      "Gender": 1,
-      "Citizenship": "RUSSIAN FEDERATION",
-      "BirthDate": "01.01.1802",
-      "BirthPlace": "Volgograd",
-      "Phone": "+79610878544",
-      "Email": "snkot@gmail.com",
-      "RegistrationAddress": {
-      },
-      "IdentityCard": {
-        "DocumentType" : "Passport",
-        "Series" : "1234567890",
-        "Number" : "1234567890",
-        "Issuer" : "MVD",
-        "IssuanceDate" : "01.01.2000",
-        "IssuerCode" : "1234567890"
-      },
-      "ForeignAddress": "Armenia, Yerevan, Shirak St"
-    }
+  {
+    "Guid" : "q-12-345-w-67890",
+    "FullName": "Semyon Semyonovich",
+    "InnF1": "1234567890",
+    "Gender": 1,
+    "Citizenship": "RUSSIAN FEDERATION",
+    "BirthDate": "01.01.1802",
+    "BirthPlace": "Volgograd",
+    "Phone": "+79610878544",
+    "Email": "snkot@gmail.com",
+    "RegistrationAddress": {
+      ...
+    },
+    "IdentityCard": {
+      "DocumentType" : "Passport",
+      "Series" : "1234567890",
+      "Number" : "1234567890",
+      "Issuer" : "MVD",
+      "IssuanceDate" : "01.01.2000",
+      "IssuerCode" : "1234567890"
+    },
+    "ForeignAddress": "Armenia, Yerevan, Shirak St"
   }
 ]
 ```
@@ -165,6 +168,7 @@ PUT /position/{personGuid}/{organizationGuid}
 
 - `personGuid` — уникальный идентификатор сотрудника.
 - `organizationGuid` — идентификатор организации, в которой нужно создать или обновить должность.
+- Метод идемпотентный.
 
 **Тело запроса:**
 
@@ -211,7 +215,8 @@ GET /position/{personGuid}/{organizationGuid}
 PUT /role/{organizationGuid}
 ```
 
-`organizationGuid` — идентификатор организации, в которой нужно назначить или обновить роль.
+- `organizationGuid` — идентификатор организации, в которой нужно назначить или обновить роль.
+- Метод идемпотентный.
 
 **Тело запроса:**
 
@@ -288,17 +293,14 @@ GET /role
 
 ```JSON
 [
-  "q-12-345-w-67890" : [ 
-    {
-      "Type" : 4,
-      "Person" : "q-12-345-w-67890",
-      "PositionOrganization" : "q-12-345-w-67890"
-    }
-  ]
+  {
+    "Organization" : "q-12-345-w-67890", 
+    "Type" : 4,
+    "Person" : "q-12-345-w-67890",
+    "PositionOrganization" : "q-12-345-w-67890"
+  }
 ]
 ```
-
-Роли будут представлены в рамках организаций (`Guid` — организации).
 
 </details>
 
@@ -374,7 +376,7 @@ DELETE /role/{organizationGuid}
 
 ## Role
 
-Представляет какую задачу или обязанность сотрудник выполняет в организации.
+Представляет задачу или обязанность, которую сотрудник выполняет в организации.
 
 **Ключ:** `Organization Guid + Role Type`
 
